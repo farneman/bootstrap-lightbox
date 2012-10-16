@@ -44,15 +44,19 @@ var Lightbox = function ( element, options ) {
 		'visibility': 'visible',
 		'opacity': 100
 	}).removeClass('fade').appendTo('body');
-	that.$h = that.$clone.height();//this.$element.height();
-	that.$w = that.$clone.width();//this.$element.width();
-	that.$clone.remove();
-	
-	that.$element.css({
-		"position": "fixed",
-		"left": ( $(window).width()  / 2 ) - ( that.$w / 2 ),
-		"top":  ( $(window).height() / 2 ) - ( that.$h / 2 )
-	});	
+    that.$clone.find('img').imagesLoaded(function() {
+        that.$h = that.$clone.height();//this.$element.height();
+        that.$w = that.$clone.width();//this.$element.width();
+        console.log(that.$h);
+        console.log(that);
+        that.$clone.remove();
+        
+        that.$element.css({
+            "position": "fixed",
+            "left": ( $(window).width()  / 2 ) - ( that.$w / 2 ),
+            "top":  ( $(window).height() / 2 ) - ( that.$h / 2 )
+        });	
+    });
 	//
 }
 
@@ -81,6 +85,7 @@ Lightbox.prototype = {
 		this.backdrop(function () {
 			var transition = $.support.transition && that.$element.hasClass('fade')
 
+            that.$element.find('img').imagesLoaded(function() {
 			if (!that.$element.parent().length) {
 						that.$element.appendTo(document.body) //don't move modals dom position
 					}
@@ -142,6 +147,7 @@ Lightbox.prototype = {
 					that.$element.trigger('shown')
 
 				})
+            });
 }
 
 , hide: function ( e ) {
